@@ -1,0 +1,7 @@
+JAVADOC=@JAVADOC@
+
+all:
+	$(JAVADOC) -protected -sourcepath ../src -d ./javadoc -use -version -author -windowtitle "Java Gene Expression Programming Toolkit" jGEP
+
+clean:
+	rm -Rf javadoc

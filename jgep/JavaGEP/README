@@ -1,0 +1,35 @@
+Java Gene Expression Programming Toolkit
+http://jgep.sf.net/
+
+Matthew Sottile (matt@lanl.gov)
+Advanced Computing Lab, Los Alamos National Laboratory
+
+===============
+1. Introduction
+===============
+
+This toolkit is intended to provide software infrastructure for rapidly
+constructing experiments involving the evolutionary programming technique
+introduced by Candida Ferreira and recently published in an issue
+of the Complex Systems journal.  Java was chosen for a few reasons:
+
+- portability of GUI implementations and compiled code
+- clean OO language with nice dynamic runtime characteristics (IE, it's not
+  a train wreck like C++)
+- migrating to a multi-threaded or distributed implementation is almost
+  trivial with Java
+- for prototyping of experiments, speed and ease of use is most important,
+  not optimal performance.  Once an experimenter moves on to the phase where
+  production-style speeds are required, the application can and should be
+  ported to a more appropriate language.
+
+=======
+2. CGep
+=======
+
+The cgep directory contains a C version of a GEP implementation of the 
+regression problem.  It isn't as general as the Java code, since this is
+a bit harder in C, but a good deal of the infrastructure for structs
+representing populations and genomes is there.
+
+-m

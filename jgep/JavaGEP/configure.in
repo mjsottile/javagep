@@ -1,0 +1,102 @@
+dnl autoconf script
+
+dnl
+dnl Java related autoconf macros taken from a message by:
+dnl
+dnl     Stephane Bortzmeyer <bortzmeyer@pasteur.fr>
+dnl
+dnl ...found on lists.debian.org.  Thanks!
+dnl
+
+dnl compiler check
+AC_DEFUN(AC_PROG_JAVAC,[
+test -z "$JAVAC" && AC_CHECK_PROGS(JAVAC, javac "gcj -C" guavac jikes)
+test -z "$JAVAC" && AC_MSG_ERROR([no acceptable Java compiler found in \$PATH])
+AC_PROG_JAVAC_WORKS
+])
+
+dnl jar check - matt added this based on javac check
+AC_DEFUN(AC_PROG_JAR,[
+test -z "$JAR" && AC_CHECK_PROGS(JAR, jar)
+test -z "$JAR" && AC_MSG_ERROR([no acceptable Jar executable found in \$PATH])
+])
+
+AC_DEFUN(AC_PROG_JAVADOC,[
+test -z "$JAVADOC" && AC_CHECK_PROGS(JAVADOC, javadoc)
+test -z "$JAVADOC" && AC_MSG_ERROR([no acceptable Javadoc executable found in \$PATH])
+])
+
+dnl classpath report
+AC_DEFUN(AC_CHECK_CLASSPATH,[
+if test -z "$CLASSPATH"; then
+        echo "You have no CLASSPATH, I hope it is good"
+else
+        echo "You have CLASSPATH $CLASSPATH, hope it is correct"
+fi
+])
+
+dnl check compiler is sane
+AC_DEFUN(AC_PROG_JAVAC_WORKS,[
+echo -n "Testing if $JAVAC works... "
+JAVA_TEST=Test.java
+CLASS_TEST=Test.class
+cat << \EOF > $JAVA_TEST
+public class Test {
+}
+EOF
+if AC_TRY_COMMAND($JAVAC $JAVA_TEST) >/dev/null 2>&1; then
+  echo "yes"
+else
+  echo "no"
+  AC_MSG_ERROR([The Java compiler $JAVAC failed (see config.log, check the CLASSPATH?)])
+fi
+rm -f $JAVA_TEST $CLASS_TEST
+])
+
+AC_DEFUN(AC_PROG_JAVA,[
+test -z "$JAVA" && AC_CHECK_PROGS(JAVA, java kaffe)
+test -z "$JAVA" && AC_MSG_ERROR([no acceptable Java virtual machine found in \$PATH])
+AC_PROG_JAVA_WORKS
+])
+
+AC_DEFUN(
+AC_PROG_JAVA_WORKS,
+[
+echo -n "Testing if $JAVA works... "
+JAVA_TEST=Test.java
+CLASS_TEST=Test.class
+TEST=Test
+changequote(, )dnl
+cat << \EOF > $JAVA_TEST
+public class Test {
+            public static void main (String args[]) {}
+}
+EOF
+changequote([, ])dnl
+if AC_TRY_COMMAND($JAVAC $JAVA_TEST) >/dev/null 2>&1; then
+  if AC_TRY_COMMAND($JAVA $TEST) >/dev/null 2>&1; then
+    echo "yes"
+  else
+    echo "no"
+    AC_MSG_ERROR(The Java VM $JAVA failed (see config.log, check the CLASSPATH?))
+  fi
+else
+  AC_MSG_ERROR(The Java compiler $JAVAC failed (see config.log, check the CLASSPATH?))
+fi
+rm -f $JAVA_TEST $CLASS_TEST
+]
+)
+
+dnl
+dnl main autoconf script
+dnl
+
+AC_INIT(src/tester.java)
+
+AC_PROG_JAVAC
+AC_PROG_JAVA
+AC_PROG_JAR
+AC_PROG_JAVADOC
+AC_CHECK_CLASSPATH
+
+AC_OUTPUT(Makefile src/Makefile docs/Makefile examples/Makefile)

@@ -1,0 +1,13 @@
+#
+# jGEP makefile
+#
+all: clean
+	(cd src;  make)
+	(cd docs; make)
+
+doc:
+	(cd docs; make)
+
+clean:
+	(cd src; make clean)
+	(cd docs; make clean)

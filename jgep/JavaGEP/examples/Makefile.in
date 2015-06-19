@@ -1,0 +1,12 @@
+JAVAC=@JAVAC@
+JAVA=@JAVA@
+CLASSPATH=-classpath ../src/jGEP.jar
+
+all:
+	$(JAVAC) $(CLASSPATH) regression.java
+
+clean:
+	rm -f *.class
+
+run:
+	$(JAVA) -cp ../src/jGEP.jar:. regression

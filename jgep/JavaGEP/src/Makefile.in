@@ -1,0 +1,17 @@
+#
+# jGEP makefile
+#
+JAVAC=@JAVAC@
+JAR=@JAR@
+JAVA=@JAVA@
+
+all:
+	$(JAVAC) jGEP/*.java
+	$(JAR) cf jGEP.jar jGEP/*.class
+
+tests:
+	$(JAVAC) tester.java
+	$(JAVA) tester
+
+clean:
+	rm -f jGEP/*.class *.class jGEP.jar *~ jGEP/*~
